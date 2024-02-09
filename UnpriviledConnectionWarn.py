@@ -1,24 +1,23 @@
-import socket			 
-import subprocess
+import socket                    
+import random as r
 
-s = socket.socket()		 
-print ("Socket successfully created\n")
-try:
-    port = 22
-    s.bind(('', port))
-except :
-    port = 25
+def honeypot():
+
+    s = socket.socket()
+    
+    vulnPorts = [20,21,22,23,25,53,137,139,445,80,443,8080,8443,1433,1434,3306,3389]
+
+    choice = r.randint(0,len(vulnPorts))
+    port = vulnPorts[choice]
     s.bind(('',port))
 
+    print(f'\nHoney pot waiting for bee on honey port {port}.\n')
 
-print ("socket desiguse as  %s" %(port)) 
+    s.listen()
 
-s.listen(5)	 
-print ("\nWaiting\n")		  
-while True: 
-  c, addr = s.accept()
-  subprocess.call(["notify-send", f"WARNING SOMEONE IS CONNECT TO PORT: {port}"])
-  print (addr, "is trying to connect to port",port )
-  c.close()
+    while 68 < 69:
+        c, bee = s.accept()
+        print(f'{bee} has tasted the honey port.')
+        c.close()
 
-
+honeypot()
